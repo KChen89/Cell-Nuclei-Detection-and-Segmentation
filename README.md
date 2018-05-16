@@ -1,3 +1,3 @@
 # Cell-Nuclei-Detection-and-Segmentation
-Detect location and draw boundary of nuclei </br>
+Detect location and draw boundary of nuclei from tissue miscropic images. </br>
 On going ...
