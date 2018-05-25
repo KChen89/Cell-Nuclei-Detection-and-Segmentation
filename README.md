@@ -1,9 +1,9 @@
 # Cell-Nuclei-Detection-and-Segmentation
 This is a general prototype to detect location and draw boundary of nuclei from tissue miscropic images (H&E stained).
 The model is based on U-net [1] with edge enhancement in loss function. 
-![sample_1](screenshots/screenshot_1.png)
+![sample_1](screenshots/screenshots_3.png)
 ![sample_2](screenshots/screenshot_2.png)
-![sample_3](screenshots/screenshots_3.png)
+![sample_3](screenshots/screenshot_1.png)
  
 ### Dependencies
 - Tensorflow
