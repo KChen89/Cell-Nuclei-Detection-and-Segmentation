@@ -124,7 +124,9 @@ def center_point(mask):
 	mask=erosion(mask, square(3))
 	individual_mask=label(mask, connectivity=2)
 	for index in np.unique(individual_mask):
-		temp_mask=individual_mask[individual_mask==index]=1
+		temp_mask=individual_mask
+		temp_mask[temp_mask==index]=1
+		temp_mask[temp_mask!=index]=0
 		temp_center=center_of_mass(temp_mask)
 		temp_center=dilation(temp_center, square(2))
 		center_map+=temp_center
@@ -135,7 +137,9 @@ def draw_individual_edge(mask):
 	edge=np.zeros([v,h])
 	individual_mask=label(mask, connectivity=2)
 	for index in np.unique(individual_mask):
-		temp_mask=individual_mask[individual_mask==index]=1
+		temp_mask=individual_mask
+		temp_mask[temp_mask==index]=1
+		temp_mask[temp_mask!=index]=0
 		temp_mask=dilation(temp_mask, square(3))
 		temp_edge=cv2.Canny(temp_mask, 2,5)
 		edge+=temp_edge
