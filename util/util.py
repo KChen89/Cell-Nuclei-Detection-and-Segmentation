@@ -8,9 +8,8 @@ import os
 import sys
 import math
 from time import time, ctime
-from scipy.ndimage.measurements import center_of_mass
 from skimage.morphology import square, erosion, dilation
-from skimage.measure import label
+from skimage.measure import label, regionprops
 from .run_restored_model import restored_model
 
 def print_ctime():
@@ -120,30 +119,32 @@ def sess_interference(sess, batch_group):
 
 def center_point(mask):
 	v,h=mask.shape
-	center_map=np.zeros([v,h])
+	center_mask=np.zeros([v,h])
 	mask=erosion(mask, square(3))
 	individual_mask=label(mask, connectivity=2)
-	for index in np.unique(individual_mask):
-		temp_mask=individual_mask
-		temp_mask[temp_mask==index]=1
-		temp_mask[temp_mask!=index]=0
-		temp_center=center_of_mass(temp_mask)
-		temp_center=dilation(temp_center, square(2))
-		center_map+=temp_center
-	return np.clip(center_map, a_min=0, a_max=1).astype(uint8)
+	prop=regionprops(individual_mask)
+	for cordinates in prop:
+		temp_center=cordinates.centroid
+		if not math.isnan(temp_center[0]) and not math.isnan(temp_center[1]):
+			temp_mask=np.zeros([v,h])
+			temp_mask[int(temp_center[0]), int(temp_center[1])]=1
+			center_mask+=dilation(temp_mask, square(2))
+	return np.clip(center_mask, a_min=0, a_max=1).astype(np.uint8)
 
 def draw_individual_edge(mask):
 	v,h=mask.shape
 	edge=np.zeros([v,h])
 	individual_mask=label(mask, connectivity=2)
 	for index in np.unique(individual_mask):
-		temp_mask=individual_mask
-		temp_mask[temp_mask==index]=1
+		if index==0:
+			continue
+		temp_mask=np.copy(individual_mask)
 		temp_mask[temp_mask!=index]=0
+		temp_mask[temp_mask==index]=1
 		temp_mask=dilation(temp_mask, square(3))
-		temp_edge=cv2.Canny(temp_mask, 2,5)
+		temp_edge=cv2.Canny(temp_mask.astype(np.uint8), 2,5)/255
 		edge+=temp_edge
-	return np.clip(edge, a_min=0, a_max=1).astype(uint8)
+	return np.clip(edge, a_min=0, a_max=1).astype(np.uint8)
 
 def center_edge(mask, image):
 	center_map=center_point(mask)
@@ -153,4 +154,4 @@ def center_edge(mask, image):
 	check_image=np.copy(image)
 	comb_mask*=255
 	check_image[:,:,1]=np.maximum(check_image[:,:,1], comb_mask)
-	return check_image.astype(uint8)
+	return check_image.astype(np.uint8), comb_mask.astype(np.uint8)
