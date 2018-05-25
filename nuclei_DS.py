@@ -36,16 +36,20 @@ def process(data_folder, model_name, format):
 		c_mask=c_mask.astype(np.float)/255
 		thr=0.5
 		c_mask[c_mask<thr]=0
-		c_mask[c_mask>-thr]=255
+		c_mask[c_mask>-thr]=1
+		center_edge_mask=center_edge(c_mask, temp_image)
+		cv2.imwrite(result, center_edge_mask)
 		te=time()
 		print('Time cost: ', str(te-ts))
 	model.close_sess()
-	print('Task done:')
+	print('mask generation done')
 	print_ctime()
 
 def main():
 	data_folder='data'
 	model_name='nucles_model_v3'
+	format='.tif'
+	process(data_folder, model_name, format)
 
 if __name__ == '__main__':
 	main()
