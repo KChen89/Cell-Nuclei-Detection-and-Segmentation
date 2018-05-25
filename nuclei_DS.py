@@ -15,7 +15,7 @@ def process(data_folder, model_name, format):
 	name_list=os.listdir(file_path)
 	print(str(len(name_list)), ' files detected')
 	model_path=os.path.join(os.getcwd(), 'models')
-	model=restored_model(model_path, os.path.join(model_path, model_name))
+	model=restored_model(os.path.join(model_path, model_name), model_path)
 	print('Start time:')
 	print_ctime()
 
@@ -47,7 +47,7 @@ def process(data_folder, model_name, format):
 
 def main():
 	data_folder='data'
-	model_name='nucles_model_v3'
+	model_name='nucles_model_v3.meta'
 	format='.tif'
 	process(data_folder, model_name, format)
 

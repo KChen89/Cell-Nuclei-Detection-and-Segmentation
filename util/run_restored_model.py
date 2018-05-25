@@ -16,8 +16,8 @@ class restored_model(object):
 			self.model_saver=tf.train.import_meta_graph(model_name)
 			self.model_saver.restore(self.sess, tf.train.latest_checkpoint(model_folder+'/.'))
 			self.graph=self.graph
-			self.sample_in=self.graph.get_tensor_by_name('image_ph:0')
-			self.c_mask_out=self.graph.get_tensor_by_name('raw_output:0')
+			self.sample_in=self.graph.get_tensor_by_name('sample:0')
+			self.c_mask_out=self.graph.get_tensor_by_name('c_mask:0')
 
 	def run_sess(self, patches):
 		feed_dict={self.sample_in: patches}
