@@ -1,6 +1,6 @@
 # Cell-Nuclei-Detection-and-Segmentation
 This is a general prototype to detect location and draw boundary of nuclei from tissue microscopic images (H&E stained).
-The model is based on U-net [1] (fewer layer and fewer number of filters due to computation resource limit :eyes:) with edge enhancement in loss function. 
+Overlap patch based strategy is used to 1) adapt to variant input image size (resize image may stretch features); 2) use random clip and rotation for data augmentation; 3) each region in output mask is determined by combining interference result from multiple patches.  
 ![sample_1](screenshots/screenshots_3.png)
 ![sample_2](screenshots/screenshot_2.png)
 ![sample_3](screenshots/screenshot_1.png)
@@ -16,8 +16,6 @@ The model is based on U-net [1] (fewer layer and fewer number of filters due to 
 - [x] detection and segmentation model
 - [x] consider edge into loss function during training
 - [x] morphology operation to calculate center and boundary
-- [ ] identify overlapping samples with individual segmentation model
+- [ ] better color normalization method for preprocess
+- [ ] identify overlapping samples with local segmentation model
 - [ ] identify tissue types 
-
-#### Reference
-[1] Olaf Ronneberger, Philipp Fischer, Thomas Brox, U-Net: Convolutional Networks for Biomedical Image Segmentation,  	arXiv:1505.04597.
