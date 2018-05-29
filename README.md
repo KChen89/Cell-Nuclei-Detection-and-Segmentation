@@ -20,3 +20,4 @@ Overlap patch based strategy is used to 1) adapt to variant input image size (re
 - [ ] identify tissue types 
 
 #### Reference
+[1] Olaf Ronneberger, Philipp Fischer, Thomas Brox, U-Net: Convolutional Networks for Biomedical Image Segmentation,  	arXiv:1505.04597.
