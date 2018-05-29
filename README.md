@@ -18,3 +18,5 @@ Overlap patch based strategy is used to 1) adapt to variant input image size (re
 - [ ] better color normalization method for preprocess
 - [ ] identify overlapping samples with local segmentation model
 - [ ] identify tissue types 
+
+#### Reference
